@@ -39,6 +39,7 @@ public class LimiterHandler : DelegatingHandler
 	private static Uri CreateUriWithParameter(Uri baseUri, string parameter){
 		Uri.TryCreate(baseUri, parameter, out Uri result);
 		return result;
+		 // create method to create custom Uri
 	}
 
 	private static string GetEntityFromRequestString(Uri requestUri) =>
