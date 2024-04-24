@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,7 +16,7 @@ public class LimiterHandler : DelegatingHandler
 
 	#region Constants: Private
 
-	private const uint Top = 5;
+	private const uint Top = 20_000;
 
 	#endregion
 
@@ -51,9 +50,7 @@ public class LimiterHandler : DelegatingHandler
 	private static string ToQueryString(NameValueCollection nvc){
 		List<string> array = new();
 		foreach (string key in nvc.AllKeys) {
-			foreach (string value in nvc.GetValues(key)) {
-				array.Add(string.Concat(key, "=", value));
-			}
+			array.AddRange(nvc.GetValues(key)!.Select(value => string.Concat(key, "=", value)));
 		}
 		return string.Join("&", array);
 	}
@@ -68,10 +65,9 @@ public class LimiterHandler : DelegatingHandler
 			queryParams.Add("$top", Top.ToString());
 		}
 		string queryString = ToQueryString(queryParams);
-		_logger.LogInformation("Adjusted top to: {0}, new query:{1}", queryParams["$top"], queryString);
+		_logger.LogWarning("Adjusted top to: {0}, new query:{1}", queryParams["$top"], queryString);
 		request.RequestUri = CreateUriWithParameter(request.RequestUri, "?" + queryString);
 		return request;
-		
 	}
 
 	#endregion
@@ -81,7 +77,6 @@ public class LimiterHandler : DelegatingHandler
 	protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
 		CancellationToken cancellationToken){
 		_logger.LogInformation("Entered SendAsync");
-		Uri u = request.RequestUri;
 		Uri requestUri = request.RequestUri;
 		bool top = HasTop(requestUri);
 		string entityName = GetEntityFromRequestString(requestUri);
@@ -95,9 +90,5 @@ public class LimiterHandler : DelegatingHandler
 	}
 
 	#endregion
-
-	private record ODataResponse([property: JsonPropertyName("@odata.context")]
-		string Context,
-		[property: JsonPropertyName("value")] List<object> Records);
 
 }

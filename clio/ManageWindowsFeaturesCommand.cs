@@ -6,8 +6,7 @@ using System.Linq;
 namespace Clio
 {
 	[Verb("manage-windows-features", Aliases = new string[] { "mwf", "mng-win-features" }, HelpText = "Install windows features required for Creatio")]
-
-	internal class ManageWindowsFeaturesOptions
+	public class ManageWindowsFeaturesOptions
 	{
 		[Option('c', "Check", Required = false, HelpText = "Check required feature states")]
 		public bool CheckMode {

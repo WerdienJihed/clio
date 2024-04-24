@@ -100,7 +100,7 @@ namespace Clio.Tests
 			const CreatioRuntimePlatform creatioRuntimePlatform = CreatioRuntimePlatform.NETFramework;
 
 			//Act
-			string filePath = _installerCommand.GetBuildFilePathFromOptions(RemoteArtifactServerPath, product,
+			string filePath = _installerCommand.GetBuildFilePathFromOptions(product,
 				creatioDbType, creatioRuntimePlatform);
 
 			//Assert

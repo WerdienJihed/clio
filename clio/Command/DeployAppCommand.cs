@@ -10,7 +10,7 @@ namespace Clio.Command
 {
 
 	[Verb("deploy-application", Aliases = new[] { "deploy-app" }, HelpText = "Deploy app from current environment to destination environment")]
-	internal class DeployAppOptions : BaseAppCommandOptions
+	public class DeployAppOptions : BaseAppCommandOptions
 	{
 
 		public string SourceEnvironment {
