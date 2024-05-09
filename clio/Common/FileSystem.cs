@@ -21,8 +21,10 @@ public class FileSystem : IFileSystem
 	public Ms.FileSystemStream CreateFile(string filePath){
 		return _msFileSystem.File.Create(filePath);
 	}
-	
-	
+
+	public Ms.IDirectory Directory => _msFileSystem.Directory;
+
+	public Ms.IFile File => _msFileSystem.File;
 	
 	#region Methods: Public
 
@@ -328,7 +330,11 @@ public class FileSystem : IFileSystem
 		return GetDirectories(Directory.GetCurrentDirectory());
 	}
 
-
+	public string GetCurrentDirectory(){
+		return _msFileSystem.Directory.GetCurrentDirectory();
+		
+	}
+	
 	public bool CompareFiles(Algorithm algorithm, string first, string second){
 		if (!_msFileSystem.File.Exists(first) || !_msFileSystem.File.Exists(second)){
 			return false;

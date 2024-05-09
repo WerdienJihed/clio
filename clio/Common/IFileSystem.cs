@@ -199,6 +199,8 @@ namespace Clio.Common
 
 		#endregion
 
+		public IDirectory Directory {get;}
+        public IFile File {get;}
 	}
 
 	#endregion
