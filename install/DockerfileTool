@@ -10,13 +10,13 @@ RUN ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
 
 # FOR CONVENIENCE I INSTALL SOME TOOLS
 RUN apt-get update && apt-get -y install unzip curl nano bash
+RUN dotnet tool install clio --global
+RUN echo 'export PATH="$PATH:/root/.dotnet/tools"' >> ~/.bashrc
 
-RUN mkdir /app && chmod -R 777 /app
-COPY . /app
-WORKDIR /app
+# REGISTER MY WEB APP, OR EXECUTE ANY OTHER CLI COMMAND
+RUN bash -c "source ~/.bashrc && clio reg-web-app studiohs -u http://kkrylovn.tscrm.com:40015 -l Supervisor -p Supervisor"
+RUN bash -c "source ~/.bashrc && clio cfg -a studiohs"
 
-# THIS MY ENV, OBVIOUSLY YOU NEED TO CHANGE IT
-RUN dotnet clio.dll reg-web-app studiohs -u http://kkrylovn.tscrm.com:40015 -l Supervisor -p Supervisor
 
 # ENTRYPOINT, FOR TESTING I NEED TO DROP INTO BASH
 ENTRYPOINT ["/bin/bash"]
