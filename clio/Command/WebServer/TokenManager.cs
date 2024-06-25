@@ -59,17 +59,17 @@ public class TokenManager : ITokenManager
 		EnvironmentSettings environment = _settingsRepository.GetEnvironment(environmentName);
 		
 		Uri.TryCreate(environment.AuthAppUri, UriKind.Absolute, out Uri uriValue);
-		httpClient.BaseAddress = uriValue;
+		//httpClient.BaseAddress = uriValue;
 		
 		IEnumerable<KeyValuePair<string, string>> keys = new List<KeyValuePair<string, string>>() {
 			new ("client_Id",environment.ClientId),
 			new ("client_secret",environment.ClientSecret),
 			new ("grant_type","client_credentials")
 		};
-		var formUrlEncodedContent = new FormUrlEncodedContent(keys);
-		HttpRequestMessage requestMessage = new () {
+		FormUrlEncodedContent formUrlEncodedContent = new FormUrlEncodedContent(keys);
+		HttpRequestMessage requestMessage = new (HttpMethod.Post, uriValue) {
 			Content = formUrlEncodedContent,
-			Method = HttpMethod.Post
+			// Method = HttpMethod.Post
 		};
 		HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
 		Stream stream = await responseMessage.Content.ReadAsStreamAsync();

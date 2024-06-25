@@ -58,6 +58,12 @@
     <None Update="Examples\deployments-manifest\integration-test-manifest.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="samplefiles\metadata-formated.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="samplefiles\metadata-raw.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

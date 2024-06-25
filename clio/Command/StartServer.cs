@@ -8,11 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using HttpVersion = System.Net.HttpVersion;
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
@@ -197,6 +199,10 @@ public class StartServerCommand : Command<StartServerOptions>
         string stringContent = await response.Content.ReadAsStringAsync();
         string returnContent = stringContent.Replace(environment.Uri!, $"http://127.0.0.1:19999/proxy/{env}");
 
+        if(proxyString.EndsWith("odata/$metadata")) {
+            returnContent = MetadataAdjuster.Adjust(returnContent);
+        }
+        
         return response.StatusCode switch
         {
             HttpStatusCode.NoContent => Results.NoContent(),

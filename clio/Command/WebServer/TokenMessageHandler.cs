@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -54,6 +55,12 @@ public class TokenMessageHandler : DelegatingHandler
 		}
 		string accessToken = _tokenManager.GetToken(environmentNameValue);
 		request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+		
+		if(accessToken == string.Empty) {
+			return await RefreshTokenAndSendAsync(environmentNameValue, request, cancellationToken);
+		}
+		
+		
 		HttpResponseMessage firstResponse = await base.SendAsync(request, cancellationToken);
 		return firstResponse.StatusCode switch {
 			HttpStatusCode.Unauthorized => await RefreshTokenAndSendAsync(environmentNameValue, request, cancellationToken),
