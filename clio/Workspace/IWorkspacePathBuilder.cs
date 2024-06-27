@@ -27,6 +27,7 @@ namespace Clio.Workspaces
 		string CoreBinFolderPath { get; } 
 		string LibFolderPath { get; }
 		string ConfigurationBinFolderPath { get; }
+		string ApplicationPackagesFolderPath { get; }
 
 		#endregion
 
