@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Threading;
 using ATF.Repository.Mock;
 using ATF.Repository.Providers;
 using Autofac;
@@ -18,6 +19,13 @@ namespace Clio.Tests.Command;
 public class ProgramTestCase : BaseClioModuleTests
 {
 	IAppUpdater appUpdaterMock = Substitute.For<IAppUpdater>();
+
+	[SetUp]
+	public void SetUp() {
+		appUpdaterMock.ClearReceivedCalls();
+		Program.Container = null;
+		Program.AppUpdater = null;
+	}
 
 	[TearDown]
 	public void TearDown() {
@@ -83,6 +91,7 @@ public class ProgramTestCase : BaseClioModuleTests
 		SettingsRepository.FileSystem = _fileSystem;
 		Program.AutoUpdate = true;
 		Program.ExecuteCommands(new string[] { "ver", "--clio" });
+		Thread.Sleep(100);
 		appUpdaterMock.Received(1).CheckUpdate();
 	}
 
@@ -94,6 +103,7 @@ public class ProgramTestCase : BaseClioModuleTests
 		SettingsRepository.FileSystem = _fileSystem;
 		Program.AutoUpdate = true;
 		Program.ExecuteCommands(new string[] { "ver", "--clio" }).Should().Be(0);
+		Thread.Sleep(100);
 		Program.AppUpdater.Checked.Should().BeTrue();
 	}
 }
