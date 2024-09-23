@@ -54,7 +54,7 @@ namespace Clio.Command
 			
 			if (options.WebHost == "true")
 			{
-				ServicePath = "/0/api/HealthCheck/Ping";
+				ServicePath = "/api/HealthCheck/Ping";
 				Logger.WriteInfo($"Checking WebHost {ServiceUri} ...");
 				result += ExecuteGetRequest("WebHost");
 			}

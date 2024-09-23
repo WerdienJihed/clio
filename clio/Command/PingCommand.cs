@@ -26,6 +26,13 @@ namespace Clio.Command
 			return 0;
 		}
 
+		protected override void ProceedResponse(string response, PingAppOptions options){
+			base.ProceedResponse(response, options);
+			if(response.Trim() != "Pong") {
+				throw new Exception("Ping failed, expected to receive 'Pong' instead saw: " + response);
+			}
+		}
+
 		public override int Execute(PingAppOptions options) {
 			ServicePath = options.Endpoint;
 			RequestTimeout = options.TimeOut;
