@@ -1,0 +1,20 @@
+@clioAgent_HostAddress = http://localhost:6000
+
+
+###
+
+POST {{clioAgent_HostAddress}}/executeAsync/deploy
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Product" : "8.2.0.4120_BankSales_BankCustomerJourney_Lending_MarketingNet6_Softkey_PostgreSQL_ENU"
+}
+
+
+###
+GET {{clioAgent_HostAddress}}/getBag
+Accept: application/json
+
+
+
