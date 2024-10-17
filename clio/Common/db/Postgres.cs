@@ -28,7 +28,11 @@ public class Postgres : IPostgres
 	public Postgres(int port, string username, string password) {
 		_connectionString = $"Host=127.0.0.1;Port={port};Username={username};Password={password};Database=postgres";
 	}
-	
+
+	public Postgres(string connectionString) {
+		_connectionString = connectionString;
+	}
+
 	public bool CreateDbFromTemplate (string templateName, string dbName) {
 		try {
 			using NpgsqlDataSource dataSource = NpgsqlDataSource.Create(_connectionString);

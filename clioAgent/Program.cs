@@ -16,19 +16,21 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
 	.Build();
 var creatioProducts = configuration.GetSection("CreatioProducts").Get<CreatioProducts[]>();
 var db = configuration.GetSection("Db").Get<Db[]>();
-Settings settings = new Settings(creatioProducts, db);
+var workingDirectoryPath = configuration.GetSection("WorkingDirectoryPath").Get<string>();
+Settings settings = new Settings(creatioProducts, db, workingDirectoryPath);
 
-
+builder.Services.AddSingleton(settings);
 builder.Services.AddSingleton(new ConcurrentBag<DeployJob>());
 builder.Services.AddSingleton<Worker>();
 builder.Services.AddTransient<DeployEndpointHandler>();
+builder.Services.AddTransient<RestoreDbHandler>();
 
 var app = builder.Build();
 
 var todosApi = app.MapGroup("/executeAsync");
 
 todosApi.MapPost("/{commandName}", (string commandName, [FromBody]Dictionary<string, object> commandObj) => commandName switch {
-	"deploy" => app.Services.GetRequiredService<DeployEndpointHandler>().Execute(commandObj),
+	"restoredb" => app.Services.GetRequiredService<RestoreDbHandler>().Execute(commandObj),
 	
 	_ => Results.NotFound()
 });
@@ -121,7 +123,7 @@ public abstract class PStep : IStep {
 		if(_steps.Count() == 1) {
 			_steps.First().Execute();
 		}else {
-			Task.WhenAll(_steps.Select(s => s.Execute()));
+			//Task.WhenAll(_steps.Select(s => s.Execute()));
 		}
 		_nextStep?.Execute();
 		

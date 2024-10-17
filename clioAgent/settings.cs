@@ -3,7 +3,8 @@
 
 public record Settings(
     CreatioProducts[] CreatioProducts,
-    Db[] Db
+    Db[] Db,
+    string WorkingDirectoryPath
 );
 
 public record Logging(
@@ -16,11 +17,13 @@ public record CreatioProducts(
 
 public record Db(
     string Type,
-    Servers[] Servers
+    //IEnumerable<Server> Servers
+    Server[] Servers
 );
 
-public record Servers(
+public record Server(
     string Name,
-    string ConnectionString
+    string ConnectionString,
+    string BinFolderPath
 );
 

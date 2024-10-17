@@ -7,5 +7,17 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <PublishAot>false</PublishAot>
     </PropertyGroup>
+    
+
+    <ItemGroup>
+      <PackageReference Include="System.IO.Abstractions" Version="21.0.29" />
+        
+        <Reference Include="clio" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <HintPath>..\clio\bin\Release\net6.0\clio.dll</HintPath>
+      </Reference>
+      <Reference Include="clio" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <HintPath>..\clio\bin\Debug\net6.0\clio.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 
 </Project>

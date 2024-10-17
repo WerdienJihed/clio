@@ -3,12 +3,13 @@
 
 ###
 
-POST {{clioAgent_HostAddress}}/executeAsync/deploy
+POST {{clioAgent_HostAddress}}/executeAsync/restoredb
 Accept: application/json
 Content-Type: application/json
 
 {
-  "Product" : "8.2.0.4120_BankSales_BankCustomerJourney_Lending_MarketingNet6_Softkey_PostgreSQL_ENU"
+  "Name": "studio802_net472",
+  "CreatioBuildZipPath" : "C:\\CreatioProductBuild\\8.2.0.3888_SalesEnterprise_Marketing_ServiceEnterprise_Softkey_PostgreSQL_ENU.zip"
 }
 
 
