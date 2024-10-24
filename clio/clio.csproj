@@ -1045,7 +1045,7 @@
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.10" />
     <PackageReference Include="Microsoft.Web.Administration" Version="11.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Npgsql" Version="8.0.4" />
+    <PackageReference Include="Npgsql" Version="8.0.5" />
     <PackageReference Include="NRedisStack" Version="0.13.0" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="System.IO.Abstractions" Version="21.0.29" />

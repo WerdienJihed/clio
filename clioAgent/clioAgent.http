@@ -1,21 +1,73 @@
-@clioAgent_HostAddress = http://localhost:6000
+@clioAgent_HostAddress = http://localhost:30400
 
+POST {{clioAgent_HostAddress}}/executeAsync/createSite
+Accept: application/json
+Content-Type: application/json
+X-API-KEY: my-secure-api-key-admin
 
-###
+{
+  "UnzippedFolderPath": "C:\\ClioAgentArtifacts\\8.2.0.4157_SalesEnterprise_Marketing_ServiceEnterprise_Softkey_PostgreSQL_ENU",
+  "SiteFolderPath" : "C:\\inetpub\\wwwroot\\clio_dev",
+  "SiteName" : "Dev_Demo",
+  "SitePort" : 40044
+}
+
+> {%
+	const id = jsonPath(response.body, "$.jobId",)
+	client.global.set("jobId", id);
+%}
+
+### Restore Db
 
 POST {{clioAgent_HostAddress}}/executeAsync/restoredb
 Accept: application/json
 Content-Type: application/json
+X-API-KEY: my-secure-api-key-admin
 
 {
-  "Name": "studio802_net472",
-  "CreatioBuildZipPath" : "C:\\CreatioProductBuild\\8.2.0.3888_SalesEnterprise_Marketing_ServiceEnterprise_Softkey_PostgreSQL_ENU.zip"
+  "Name": "semse_net472",
+  "CreatioBuildZipPath" : "C:\\CreatioProductBuild\\8.2.0.4157_SalesEnterprise_Marketing_ServiceEnterprise_Softkey_PostgreSQL_ENU.zip"
 }
 
+> {%
+	const id = jsonPath(response.body, "$.jobId",)
+	client.global.set("jobId", id);
+%}
 
-###
-GET {{clioAgent_HostAddress}}/getBag
+
+### Get QueCount
+GET {{clioAgent_HostAddress}}/Job/Count
 Accept: application/json
+X-API-KEY: my-secure-api-key-readonly
+
+### Get JobStatus by Id
+GET {{clioAgent_HostAddress}}/Job/Status/{{jobId}}
+Accept: application/json
+X-API-KEY: my-secure-api-key-readonly
+
+### Get JobStatus by Id
+GET {{clioAgent_HostAddress}}/Job/Status/All
+Accept: application/json
+X-API-KEY: my-secure-api-key-readonly
+
+
+### Get Job Step Status by Id
+GET {{clioAgent_HostAddress}}/Job/Status/Steps/{{jobId}}
+Accept: application/json
+X-API-KEY: my-secure-api-key-readonly
+
+
+### Get Job Step Status by Id
+POST {{clioAgent_HostAddress}}/Test/ObjectValidation
+Content-Type: application/json
+
+{}
 
 
 
+
+### Get Job Step Status by Id
+GET {{clioAgent_HostAddress}}/swagger
+Content-Type: application/json
+
+{}

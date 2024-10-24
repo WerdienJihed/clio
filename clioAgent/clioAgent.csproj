@@ -5,19 +5,36 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
-        <PublishAot>false</PublishAot>
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
     
 
     <ItemGroup>
+      <PackageReference Include="ErrorOr" Version="2.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
+      <PackageReference Include="Npgsql.OpenTelemetry" Version="8.0.5" />
+      <PackageReference Include="OpenTelemetry" Version="1.9.0" />
+      <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.5.1" />
+      <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.9.0" />
+      <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9.0" />
+      <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
       <PackageReference Include="System.IO.Abstractions" Version="21.0.29" />
-        
-        <Reference Include="clio" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <HintPath>..\clio\bin\Release\net6.0\clio.dll</HintPath>
-      </Reference>
-      <Reference Include="clio" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <HintPath>..\clio\bin\Debug\net6.0\clio.dll</HintPath>
-      </Reference>
+    </ItemGroup>
+    
+
+    <ItemGroup>
+      <Content Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    
+
+    <ItemGroup>
+      <Folder Include="Dtos\" />
     </ItemGroup>
 
 </Project>

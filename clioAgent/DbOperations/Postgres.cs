@@ -1,7 +1,6 @@
-﻿using System;
-using Npgsql;
+﻿using Npgsql;
 
-namespace Clio.Common.db;
+namespace clioAgent.DbOperations;
 
 
 public interface IPostgres
@@ -18,8 +17,6 @@ public class Postgres : IPostgres
 {
 
 	private string _connectionString;
-
-	public Postgres(){ }
 	
 	public void Init(string host, int port, string username, string password){
 		_connectionString = $"Host={host};Port={port};Username={username};Password={password};Database=postgres";

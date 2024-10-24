@@ -40,7 +40,7 @@ public class FileSystem : IFileSystem
 	public long GetFileSize(string filePath) {
 		filePath.CheckArgumentNullOrWhiteSpace(nameof(filePath));
 		Ms.IFileInfoFactory fileInfoFactory = _msFileSystem.FileInfo;
-		var ff = fileInfoFactory.New(filePath);
+		Ms.IFileInfo ff = fileInfoFactory.New(filePath);
 		return ff.Length;
 	}
 	public long GetFileSize(Ms.IFileInfo fileInfo) {
