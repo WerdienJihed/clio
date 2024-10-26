@@ -89,7 +89,8 @@ void ConfigureAuth(){
 		.AddPolicy("AdminPolicy", policy =>
 			policy.Requirements.Add(new AuthorizationRequirement(ClaimTypes.Role, Roles.Admin)))
 		.AddPolicy("ReadPolicy", policy =>
-			policy.Requirements.Add(new AuthorizationRequirement(ClaimTypes.Role, Roles.Read)));
+			policy.Requirements.Add(new AuthorizationRequirement(ClaimTypes.Role, Roles.Read)))
+		.AddFallbackPolicy("fallBackPolicy", new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 
 	builder.Services.AddAuthentication(options => {
 			options.DefaultAuthenticateScheme = ApiKeyAuthenticationHandler.SchemeName;
@@ -123,6 +124,19 @@ void ConfigureSwagger(){
 	builder.Services.AddEndpointsApiExplorer();
 	builder.Services.AddSwaggerGen(options=> {
 		options.SwaggerDoc("v1", new OpenApiInfo { Title = "clioAgent API", Version = "v1" });
+		options.AddSecurityDefinition("", new OpenApiSecurityScheme {
+			Description = "API KEY",
+			Name = "X-API-KEY",
+			In = ParameterLocation.Header,
+			Type = SecuritySchemeType.ApiKey
+		});
+		options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+			{new OpenApiSecurityScheme {Reference = new OpenApiReference {
+						Type = ReferenceType.SecurityScheme,
+						Id = "X-API-KEY"
+					}
+				}, []}
+		});
 	});
 }
 

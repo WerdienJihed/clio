@@ -1,24 +1,29 @@
 ﻿using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
+using System.Text.Json.Serialization;
 using clioAgent.AuthPolicies;
 using clioAgent.Handlers;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 
 namespace clioAgent.EndpointDefinitions;
 public class ExecuteAsyncEndpointDefinition : IEndpointDefinition{
 
 	public void DefineEndpoints(WebApplication app){
-		RouteGroupBuilder route = app.MapGroup("/executeAsync").RequireAuthorization("AdminPolicy");
+		RouteGroupBuilder route = app
+			.MapGroup("/executeAsync")
+			.RequireAuthorization("AdminPolicy");
+		
 		route
 			.MapPost("/restoredb", RestoreDb)
 			.WithOpenApi(operation => new OpenApiOperation(operation) {
-			Summary = "Restores a database",
-			Description = "Restores a database - description",
-			});
+				Summary = "Restores a database",
+				Description = "Restores a database - description",
+			})
+			.Produces<RestoreDbResponse>();
 		
-		route.MapPost("/createSite", CreateSite);
+		route
+			.MapPost("/createSite", CreateSite)
+			.Produces<RestoreDbResponse>();
 	}
 	
 	private static IResult RestoreDb(Worker worker, Settings settings, 

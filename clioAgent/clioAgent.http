@@ -22,7 +22,7 @@ X-API-KEY: my-secure-api-key-admin
 POST {{clioAgent_HostAddress}}/executeAsync/restoredb
 Accept: application/json
 Content-Type: application/json
-X-API-KEY: my-secure-api-key-admin
+
 
 {
   "Name": "semse_net472",
